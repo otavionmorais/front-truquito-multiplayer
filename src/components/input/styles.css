@@ -1,0 +1,23 @@
+.input-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-style {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  background-color: #fff;
+}
+
+.input-label {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}

@@ -1,0 +1,12 @@
+.button-style {
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.button-container {
+  padding: 20px;
+}
