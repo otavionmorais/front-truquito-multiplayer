@@ -1,14 +1,19 @@
+import axios from "axios";
 import React, { useCallback } from "react";
 import "./App.css";
 import Button from "./components/button";
 import Input from "./components/input";
+import { useGlobal } from "./hooks/global";
+import { api } from "./services/api";
 
 function App() {
   const [targetRoom, setTargetRoom] = React.useState("");
   const [insertedPlayerName, setInsertedPlayerName] = React.useState("");
   const [errors, setErrors] = React.useState<string[]>([]);
+  const {socket} = useGlobal();
 
-  const handleClick = useCallback(() => {
+  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const currentErrors = [];
 
     if (targetRoom.length < 3) {
@@ -23,7 +28,27 @@ function App() {
       setErrors(currentErrors);
       return;
     }
-  }, [targetRoom, insertedPlayerName]);
+
+    setErrors([]);
+
+    try {
+      const {data} = await api.post("/rooms/join", {
+        roomName: targetRoom,
+        playerName: insertedPlayerName,
+        websocketClientId: socket?.id,
+      });
+      console.log(data);
+      
+    } catch(err: any) {
+      let errorMessage = err.message;
+
+      if(err.isAxiosError) {
+        errorMessage = err.response.data?.message;
+      }
+
+      setErrors([errorMessage]);
+    }
+  }, [targetRoom, insertedPlayerName, socket]);
 
   const formattedErrors = React.useMemo(() => {
     return errors.map((error) => (
@@ -39,7 +64,7 @@ function App() {
         <img src="Truquito.webp" alt="Truquito" className="logo-style" />
       </header>
       <section className="centered-container">
-        <form className="window" onSubmit={(e) => e.preventDefault()}>
+        <form className="window" onSubmit={handleSubmit}>
           <Input
             autoFocus
             value={insertedPlayerName}
@@ -51,7 +76,7 @@ function App() {
             setValue={setTargetRoom}
             label={"Nome da sala"}
           />
-          <Button onClick={handleClick}>
+          <Button>
             <span>Entrar</span>
           </Button>
           <div className="errors-container">{formattedErrors}</div>
