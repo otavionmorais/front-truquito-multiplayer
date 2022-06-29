@@ -1,25 +1,25 @@
 import React from "react";
-import { IGlobalContext } from "./global.structures";
-import { io, Socket } from 'socket.io-client';
+import { IGlobalContext, IRoomData } from "./global.structures";
+import { io, Socket } from "socket.io-client";
+import { API_URL } from "../services/api";
 
-const GlobalContext = React.createContext<IGlobalContext>({
-  viewportHeight: 0,
-  viewportWidth: 0,
-  setRoomName: () => {},
-  setUserName: () => {},
-  socket: null
-});
+const GlobalContext: React.Context<IGlobalContext> =
+  React.createContext<IGlobalContext>({
+    viewportHeight: 0,
+    viewportWidth: 0,
+    setRoomData: () => {},
+    setUserName: () => {},
+    socket: null,
+  });
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [viewportWidth, setViewportWidth] = React.useState(window.innerWidth);
   const [viewportHeight, setViewportHeight] = React.useState(
     window.innerHeight
   );
-  const [roomName, setRoomName] = React.useState<string | undefined>();
+  const [roomData, setRoomData] = React.useState<IRoomData | undefined>();
   const [userName, setUserName] = React.useState<string | undefined>();
-  const [socket] = React.useState<Socket | null>(
-    io('http://localhost:3000')
-  );
+  const [socket] = React.useState<Socket | null>(io(API_URL));
 
   function handleResize() {
     setViewportWidth(window.innerWidth);
@@ -33,11 +33,11 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         viewportWidth,
         viewportHeight,
-        roomName,
-        setRoomName,
+        roomData,
+        setRoomData,
         userName,
         setUserName,
-        socket
+        socket,
       }}
     >
       {children}

@@ -8,9 +8,7 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <GlobalProvider>
-      <AppRoutes />
-    </GlobalProvider>
-  </React.StrictMode>
+  <GlobalProvider>
+    <AppRoutes />
+  </GlobalProvider>
 );
