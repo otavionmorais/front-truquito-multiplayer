@@ -1,7 +1,9 @@
+import { IPlayer } from "./hooks/global.structures";
+
 export interface IJoinRoomResponse {
   room: {
     name: string;
-    players: string[];
+    players: IPlayer[];
     maxPlayers: number;
   };
   player: {

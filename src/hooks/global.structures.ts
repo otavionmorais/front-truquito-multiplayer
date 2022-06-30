@@ -10,8 +10,14 @@ export interface IGlobalContext {
   socket: Socket | null;
 }
 
+export interface IPlayer {
+  id: string;
+  name: string;
+  roomName?: string;
+}
+
 export interface IRoomData {
   name: string;
-  players: string[];
+  players: IPlayer[];
   maxPlayers: number;
 }
