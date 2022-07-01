@@ -20,7 +20,7 @@ export function Room() {
         setRoomData({
           ...roomData,
           players: [
-            ...roomData.players,
+            ...roomData.players.filter((player) => player.id !== data.id),
             {
               id: data.id,
               name: data.name,
